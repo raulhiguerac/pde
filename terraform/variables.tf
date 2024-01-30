@@ -1,0 +1,120 @@
+variable "service_account" {
+  description = "service account to authenticate gcp project"
+  type        = string
+}
+
+variable "project" {
+  description = "name of the gcp project"
+  type        = string
+}
+
+variable "services_list" {
+  description = "Enable required api's to the project"
+  type        = list(string)
+  default = [
+    "artifactregistry.googleapis.com",
+    "compute.googleapis.com",
+    "secretmanager.googleapis.com",
+    "container.googleapis.com",
+    "servicenetworking.googleapis.com"
+  ]
+}
+
+########################## db
+
+variable "project_region" {
+  description = "region of the resources in the project"
+  type        = string
+}
+
+variable "db_instance_name" {
+  description = "name of the sql instance"
+  type        = string
+}
+
+variable "db_version" {
+  description = "version of the sql db"
+  type        = string
+}
+
+variable "db_tier" {
+  description = "type of the db to use"
+  type        = string
+}
+
+variable "db_edition" {
+  description = "edition type of the db"
+  type        = string
+}
+
+variable "db_disk_size" {
+  description = "db disk size in GB"
+  type        = string
+}
+
+
+########################## repository
+
+variable "repository_id" {
+  description = "name of the artifact registry repo"
+  type        = string
+}
+
+variable "repository_format" {
+  description = "format of the artifact registry repo"
+  type        = string
+}
+
+variable "repository_tags" {
+  description = "format of the artifact registry repo"
+  type        = bool
+  default     = true
+}
+
+########################## bucket
+
+variable "bucket_name" {
+  description = "name of the bucket to store airflow logs"
+  type        = string
+}
+
+variable "bucket_destroy" {
+  description = "enforce to delete all objects of the bucket"
+  type        = bool
+  default     = true
+}
+
+variable "bucket_class" {
+  description = "storage class of the bucket"
+  type        = string
+}
+
+variable "bucket_access" {
+  description = "storage class of the bucket"
+  type        = string
+  default     = "enforced"
+}
+
+########################## vpc
+
+variable "vpc_name" {
+  description = "name of the vpc network"
+  type        = string
+}
+
+variable "vpc_subnetworks" {
+  description = "subnetworks of vpc"
+  type        = bool
+  default     = false
+}
+
+variable "vpc_routing_mode" {
+  description = "routing mode of the vpc"
+  type        = string
+  default     = "GLOBAL"
+}
+
+variable "vpc_subnet_name" {
+  description = "name of the vpc subnet"
+  type = string
+}

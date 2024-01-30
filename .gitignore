@@ -1,0 +1,8 @@
+credentials/
+docker/
+.terraform/
+terraform.tfvars
+*.tfstate
+*.backup
+.terraform.lock.hcl
+*.txt
