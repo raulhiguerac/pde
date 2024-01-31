@@ -1,5 +1,6 @@
 credentials/
 docker/
+images/
 .terraform/
 terraform.tfvars
 *.tfstate

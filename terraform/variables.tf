@@ -27,6 +27,11 @@ variable "project_region" {
   type        = string
 }
 
+variable "project_region_zone" {
+  description = "zone of the region of the resources in the project"
+  type        = string
+}
+
 variable "db_instance_name" {
   description = "name of the sql instance"
   type        = string
@@ -116,5 +121,35 @@ variable "vpc_routing_mode" {
 
 variable "vpc_subnet_name" {
   description = "name of the vpc subnet"
-  type = string
+  type        = string
+}
+
+variable "vpc_secondary_ip_ranges" {
+  type = map(object({
+    secondary_range = object({
+      range_name    = string
+      ip_cidr_range = string
+    })
+  }))
+  default = {
+    gke-pods = {
+      secondary_range = {
+        range_name    = "gke-pods"
+        ip_cidr_range = "192.168.10.0/24"
+      }
+    }
+    gke-services = {
+      secondary_range = {
+        range_name    = "gke-services"
+        ip_cidr_range = "192.170.10.0/24"
+      }
+    }
+  }
+}
+
+########################## gke
+
+variable "gke_name" {
+  description = "gke cluster name"
+  type        = string
 }
