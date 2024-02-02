@@ -15,7 +15,11 @@ resource "google_container_cluster" "airflow_cluster" {
     services_secondary_range_name = var.vpc_secondary_ip_ranges.gke-services.secondary_range.range_name
   }
 
-  depends_on = [google_compute_subnetwork.private_subnet]
+  workload_identity_config {
+    workload_pool = "${var.project}.svc.id.goog"
+  }
+
+  depends_on = [google_compute_subnetwork.private_subnet, google_project_service.gcp_services]
 
   deletion_protection = false
 }
@@ -39,24 +43,37 @@ resource "google_container_node_pool" "gke_nodes" {
   }
 }
 
-resource "kubernetes_namespace" "argocd" {
+# resource "kubernetes_namespace" "argocd" {
+#   metadata {
+#     annotations = {
+#       name = "argocd"
+#     }
+#     labels = {
+#       istio-injection = "enabled"
+#     }
+#     name = "argocd"
+#   }
+#   depends_on = [google_container_node_pool.gke_nodes]
+# }
+
+resource "kubernetes_namespace" "namespaces" {
+  for_each = { for i, values in var.namespaces : i => values }
   metadata {
     annotations = {
-      name = "argocd"
+      name = var.namespaces[each.key].name
     }
-    labels = {
-      istio-injection = "enabled"
-    }
-    name = "argocd"
+    name = var.namespaces[each.key].name
   }
   depends_on = [google_container_node_pool.gke_nodes]
 }
 
 module "gke_auth" {
-  source               = "terraform-google-modules/kubernetes-engine/google//modules/auth"
+  source = "terraform-google-modules/kubernetes-engine/google//modules/auth"
   # version              = "25.0.0"
   project_id           = var.project
   cluster_name         = data.google_container_cluster.airflow_cluster.name
   location             = data.google_container_cluster.airflow_cluster.location
   use_private_endpoint = false
+
+  depends_on = [google_container_cluster.airflow_cluster]
 }
