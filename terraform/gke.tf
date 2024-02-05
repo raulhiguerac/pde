@@ -41,6 +41,8 @@ resource "google_container_node_pool" "gke_nodes" {
       "https://www.googleapis.com/auth/cloud-platform"
     ]
   }
+
+  depends_on = [google_container_cluster.airflow_cluster]
 }
 
 # resource "kubernetes_namespace" "argocd" {

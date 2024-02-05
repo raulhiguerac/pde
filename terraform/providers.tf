@@ -4,6 +4,10 @@ terraform {
       source  = "hashicorp/google"
       version = "5.13.0"
     }
+    google-beta = {
+      source  = "hashicorp/google-beta"
+      version = "~>4"
+    }
     kubernetes = {
       source  = "hashicorp/kubernetes"
       version = "2.25.2"
@@ -16,9 +20,13 @@ terraform {
 }
 
 provider "google" {
-  user_project_override = true
-  project               = var.project
-  credentials           = file(var.service_account)
+  project     = var.project
+  credentials = file(var.service_account)
+}
+
+provider "google-beta" {
+  project     = var.project
+  credentials = file(var.service_account)
 }
 
 provider "kubernetes" {

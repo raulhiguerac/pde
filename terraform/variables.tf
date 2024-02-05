@@ -16,7 +16,8 @@ variable "services_list" {
     "compute.googleapis.com",
     "secretmanager.googleapis.com",
     "container.googleapis.com",
-    "servicenetworking.googleapis.com"
+    "servicenetworking.googleapis.com",
+    "sqladmin.googleapis.com"
   ]
 }
 
@@ -160,6 +161,18 @@ variable "namespaces" {
   }))
   default = [
     { name = "argocd" },
-    { name = "external-secrets" }
+    { name = "external-secrets" },
+    { name = "airflow" }
   ]
+}
+
+
+########################## service accounts
+
+variable "service_accounts_roles" {
+  type = map(any)
+  default = {
+    "airflow"          = "roles/storage.admin"
+    "external-secrets" = "roles/secretmanager.admin"
+  }
 }

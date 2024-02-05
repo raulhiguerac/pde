@@ -14,8 +14,8 @@ resource "helm_release" "external_secrets" {
   namespace  = "external-secrets"
 
   set {
-    name = "installCRDs" 
-    value= true
+    name  = "installCRDs"
+    value = true
   }
 
   depends_on = [kubernetes_namespace.namespaces]
