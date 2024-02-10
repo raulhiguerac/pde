@@ -41,3 +41,11 @@ resource "google_sql_database" "airflow" {
 
   depends_on = [google_sql_database_instance.airflow_instance]
 }
+
+resource "google_sql_user" "airflow_user" {
+  name     = var.airflow_secrets.airflow-db-user
+  password = var.airflow_secrets.airflow-db-password
+  instance = google_sql_database_instance.airflow_instance.name
+
+  depends_on = [google_sql_database_instance.airflow_instance]
+}

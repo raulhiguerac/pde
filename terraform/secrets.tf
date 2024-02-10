@@ -1,17 +1,21 @@
 resource "google_secret_manager_secret" "secreto_prueba" {
-  secret_id = "supersecret"
+  for_each  = var.airflow_secrets
+  secret_id = each.key
 
   labels = {
-    label = "prueba"
+    label = "airflow"
   }
 
   replication {
     auto {}
   }
+
+  depends_on = [ google_project_service.gcp_services ]
 }
 
 resource "google_secret_manager_secret_version" "supersecret_data" {
-  secret = google_secret_manager_secret.secreto_prueba.id
-
-  secret_data = "esto-es-una-prueba"
+  for_each    = var.airflow_secrets
+  secret      = google_secret_manager_secret.secreto_prueba[each.key].id
+  secret_data = each.value
+  depends_on = [ google_secret_manager_secret.secreto_prueba ]
 }

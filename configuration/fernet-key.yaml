@@ -1,0 +1,17 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: fernet-key
+  namespace: airflow
+spec:
+  refreshInterval: 1m
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: airflow-secrets              
+  target:
+    name: fernet-key
+    creationPolicy: Owner
+  data:
+  - secretKey: fernet-key  
+    remoteRef:
+      key: fernet-key

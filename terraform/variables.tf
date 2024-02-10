@@ -3,6 +3,10 @@ variable "service_account" {
   type        = string
 }
 
+variable "service_account_name" {
+  type = string
+}
+
 variable "project" {
   description = "name of the gcp project"
   type        = string
@@ -74,7 +78,7 @@ variable "repository_format" {
 variable "repository_tags" {
   description = "format of the artifact registry repo"
   type        = bool
-  default     = true
+  default     = false
 }
 
 ########################## bucket
@@ -169,10 +173,38 @@ variable "namespaces" {
 
 ########################## service accounts
 
-variable "service_accounts_roles" {
+variable "service_accounts" {
   type = map(any)
   default = {
-    "airflow"          = "roles/storage.admin"
-    "external-secrets" = "roles/secretmanager.admin"
+    "airflow"          = ["roles/storage.admin", "roles/artifactregistry.reader"]
+    "external-secrets" = ["roles/secretmanager.admin"]
   }
+}
+
+variable "service_accounts_roles" {
+  type = list(object({
+    name        = string
+    permissions = string
+  }))
+  default = [
+    {
+      name        = "airflow"
+      permissions = "roles/storage.admin"
+    },
+    {
+      name        = "airflow"
+      permissions = "roles/artifactregistry.reader"
+    },
+    {
+      name        = "external-secrets"
+      permissions = "roles/secretmanager.admin"
+    }
+  ]
+}
+
+
+########################## secrets
+
+variable "airflow_secrets" {
+  type = map(any)
 }

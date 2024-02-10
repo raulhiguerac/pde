@@ -1,0 +1,17 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: airflow-db-user
+  namespace: airflow
+spec:
+  refreshInterval: 1m
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: airflow-secrets              
+  target:
+    name: airflow-db-user
+    creationPolicy: Owner
+  data:
+  - secretKey: airflow-db-user 
+    remoteRef:
+      key: airflow-db-user

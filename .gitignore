@@ -7,3 +7,5 @@ terraform.tfvars
 *.backup
 .terraform.lock.hcl
 *.txt
+airflowvalues.yaml
+secrets2.yaml
