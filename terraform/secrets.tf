@@ -1,5 +1,5 @@
 resource "google_secret_manager_secret" "secreto_prueba" {
-  for_each  = var.airflow_secrets
+  for_each  = local.airflow_secrets
   secret_id = each.key
 
   labels = {
@@ -10,12 +10,13 @@ resource "google_secret_manager_secret" "secreto_prueba" {
     auto {}
   }
 
-  depends_on = [ google_project_service.gcp_services ]
+  depends_on = [google_project_service.gcp_services]
 }
 
 resource "google_secret_manager_secret_version" "supersecret_data" {
-  for_each    = var.airflow_secrets
+  for_each = local.airflow_secrets
+  # secret      = google_secret_manager_secret.secreto_prueba[each.key == "git-secret" ? file(each.key) : each.key].id
   secret      = google_secret_manager_secret.secreto_prueba[each.key].id
   secret_data = each.value
-  depends_on = [ google_secret_manager_secret.secreto_prueba ]
+  depends_on  = [google_secret_manager_secret.secreto_prueba]
 }

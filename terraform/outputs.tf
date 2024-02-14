@@ -8,6 +8,10 @@ output "kubernetes_cluster_host" {
   description = "GKE Cluster Host"
 }
 
+output "airflow_instance" {
+  value = google_sql_database_instance.airflow_instance.private_ip_address
+}
+
 output "services_accounts" {
   value = [for sa in google_service_account.service_account : sa.email]
 }
