@@ -1,11 +1,9 @@
 credentials/
-docker/
 images/
+other-resources/
+
 .terraform/
 terraform.tfvars
 *.tfstate
 *.backup
 .terraform.lock.hcl
-*.txt
-airflowvalues.yaml
-secrets2.yaml
