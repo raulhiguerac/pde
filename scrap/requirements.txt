@@ -1,0 +1,5 @@
+unidecode 
+requests 
+pandas
+datetime 
+google-cloud-storage
