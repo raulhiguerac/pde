@@ -3,3 +3,6 @@ requests
 pandas
 datetime 
 google-cloud-storage
+flask
+flask_restful
+gunicorn
