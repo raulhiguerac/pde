@@ -7,9 +7,9 @@ import os
 
 app = Flask(__name__)
 
-def run_scraper(bucket_name,n_elements,first_page,last_page):
+def run_scraper(bucket_name, city, min_price, max_price):
     FrScraper  = Scraper()
-    FrScraper.extract_data(bucket_name,n_elements,first_page,last_page)
+    FrScraper.extract_data(bucket_name, city, min_price, max_price)
 
     return True
 
@@ -17,13 +17,13 @@ def run_scraper(bucket_name,n_elements,first_page,last_page):
 def main():
     parser = reqparse.RequestParser(bundle_errors=True)
     parser.add_argument("bucket_name", type=str, required= True, location="args", help='The bucket name in gcs to store the scraped files')
-    parser.add_argument("n_elements" , type=int, required= True, location="args", help='Number of elements that the scraper request to the API')
-    parser.add_argument("first_page" , type=int, required= True, location="args", help='Number of first page that scraper request to the API')
-    parser.add_argument("last_page"  , type=int, required= True, location="args", help='Number of last page that scraper request to the API')
+    parser.add_argument("city" , type=str, required= True, location="args", help='Name of the city that the scraper request to the API')
+    parser.add_argument("min_price" , type=int, required= True, location="args", help='Min price that scraper request to the API')
+    parser.add_argument("max_price"  , type=int, required= True, location="args", help='Max price that scraper request to the API')
 
     args = parser.parse_args()
 
-    run_scraper(args.bucket_name,args.n_elements,args.first_page,args.last_page)
+    run_scraper(args.bucket_name,args.city,args.min_price,args.max_price)
 
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
 
