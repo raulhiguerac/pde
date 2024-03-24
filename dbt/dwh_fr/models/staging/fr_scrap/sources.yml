@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: fr_scrap
+    database: proyectopde
+    schema: prueba
+    tables: 
+      - name: revisar
